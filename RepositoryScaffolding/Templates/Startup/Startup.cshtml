@@ -1,6 +1,5 @@
 ﻿@inherits Microsoft.VisualStudio.Web.CodeGeneration.Templating.RazorTemplateBase
 @using System.Linq;
-@using Microsoft.VisualStudio.Web.CodeGeneration
 using Microsoft.AspNetCore.Builder;
 @{ 
     var allNamespaces = new SortedSet<string>(StringComparer.Ordinal);
@@ -10,18 +9,18 @@ using Microsoft.AspNetCore.Builder;
     }
     foreach (var namespaceName in allNamespaces)
     {
-@:using @namespaceName;
+        @:using @namespaceName;
     }
 }
 namespace @Model.RootNamespace
 {
-    public class Startup
-    {
-        public void Configure(IBuilder app)
-        {
-            // Set up application services
-            app.UseServices(services =>
-            {
+public class Startup
+{
+public void Configure(IBuilder app)
+{
+// Set up application services
+app.UseServices(services =>
+{
 @{
     var count = Model.StartupList.Count;
     for (var index = 0; index < count; index++)
@@ -31,11 +30,11 @@ namespace @Model.RootNamespace
         foreach (var statement in list.ServiceStatements)
         {
             atleastOneStatement = true;
-                @:@statement
+            @:@statement
         }
         if (atleastOneStatement && (index != count-1))
         {
-@:
+            @:
         }
     }
 }            });
@@ -52,14 +51,9 @@ namespace @Model.RootNamespace
         }
         if (atleastOneStatement && (index != count-1))
         {
-@:
-        }
-    }}
-@{
-    var repositoryName = @Model.ControllerName.Replace("Controller", "");
-}
-    services.AddTransient<I@repositoryName, @repositoryName>(); 
-
+            @:
         }
     }
+}        }
+}
 }

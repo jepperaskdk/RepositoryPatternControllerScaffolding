@@ -66,7 +66,7 @@ namespace @Model.ControllerNamespace
     @:@string.Format("[Area(\"{0}\")]", Model.AreaName)
     }
 
-    var repositoryName = @Model.ControllerName.Replace("Controller", "") + "Repository";
+    var repositoryName = @Model.ControllerName.Replace("Controller", "Repository");
 }
     public interface I@(repositoryName) {
         Task<IEnumerable<@Model.ModelTypeName>> ReadAsync();
@@ -89,12 +89,12 @@ namespace @Model.ControllerNamespace
 
         public async Task<IEnumerable<@Model.ModelTypeName>> ReadAsync()
         {
-            @{
-                var includeExpressions = "";
-                includeExpressions = String.Join("", relatedProperties.Values.Select(property => String.Format(".Include({0} => {0}.{1})", lambdaVar, property.AssociationPropertyName)));
-                var toListAsync = ".ToListAsync();";
-                @:return await _context.@entitySetName@includeExpressions@toListAsync
-            }
+        @{
+            var includeExpressions = "";
+            includeExpressions = String.Join("", relatedProperties.Values.Select(property => String.Format(".Include({0} => {0}.{1})", lambdaVar, property.AssociationPropertyName)));
+            var toListAsync = ".ToListAsync();";
+            @:return await _context.@entitySetName@includeExpressions@toListAsync
+        }
         }
     
         public async Task<@Model.ModelTypeName> ReadAsync(int id) {
@@ -125,9 +125,9 @@ namespace @Model.ControllerNamespace
 
     public class @Model.ControllerName : Controller
     {
-        private readonly @repositoryName _repository;
+        private readonly I@(repositoryName) _repository;
     
-        public @(Model.ControllerName)(@repositoryName repository)
+        public @(Model.ControllerName)(I@(repositoryName) repository)
         {
             _repository = repository;    
         }
